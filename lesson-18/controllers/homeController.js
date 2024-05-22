@@ -49,8 +49,10 @@ var courses = [
  * homeController.js에서의 액션 수정
  */
 module.exports = {
-  // 모든 컨트롤러 액션과 함께 객체 리터럴 익스포트
+   // 모든 컨트롤러 액션과 함께 객체 리터럴 익스포트
   /*
    * @TODO: showHome와 showTransportation 액션을 객체 리터럴로 묶어 익스포트
    */
+  showHome: exports.showHome,
+  showTransportation: exports.showTransportation
 };

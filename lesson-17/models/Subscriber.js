@@ -1,4 +1,3 @@
-// models/subscriber.js
 "use strict";
 
 /**
@@ -7,19 +6,33 @@
  */
 const mongoose = require("mongoose"),
   subscriberSchema = mongoose.Schema({
-    /**
-     * @TODO 1. 스키마에 필드 추가
-     */
-    name: String,
-    email: String,
-    phoneNumber: String,
-    newsletter: Boolean,
-    profileImg: String,
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      lowercase: true,
+      unique: true,
+      trim: true
+    },
+    phoneNumber: {
+      type: String,
+    },
+    newsletterType: {
+      type: Boolean,
+    },
+    profileImg: {
+      type: String,
+    },
     courses: [
       {
         /*
          * @TODO: Child referencing (https://dev.to/oluseyeo/how-to-create-relationships-with-mongoose-and-node-js-11c8)
          */
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course"
       },
     ],
   });
@@ -37,6 +50,13 @@ subscriberSchema.methods.getInfo = function () {
   /**
    * @TODO 2. 구독자의 Full info를 구하기 위한 인스턴스 메소드 추가
    */
+  return `Name: ${this.name}, Email: ${this.email}, Phone: ${this.phoneNumber}`;
+};
+
+subscriberSchema.methods.findSubscribersWithSamePhone = function () {
+  return this.model("Subscriber")
+    .find({ phoneNumber: this.phoneNumber })
+    .exec();
 };
 
 module.exports = mongoose.model("Subscriber", subscriberSchema);

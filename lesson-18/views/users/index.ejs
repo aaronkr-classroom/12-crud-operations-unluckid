@@ -21,9 +21,15 @@
           </tr>
         </thead>
         <tbody>
-          <!-- 
-            @TODO: 뷰에서 사용자 배열 루핑 탐색 
-          -->
+          <% users.forEach(user => {%>
+            <tr>
+
+              <td><%= user.fullName %></td> <!-- 사용자의 fullName 출력 -->
+              <td><%= user.email %></td> <!-- 사용자의 email 출력 -->
+              <td><%= user.phoneNumber %></td>
+              <td><%= user.password %></td> <!-- 사용자의 password 출력 -->
+            </tr>
+            <%});%>
         </tbody>
       </table>
 

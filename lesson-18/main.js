@@ -15,8 +15,17 @@ const express = require("express"), // express를 요청
  */
 const mongoose = require("mongoose"); // mongoose를 요청
 // 데이터베이스 연결 설정
-mongoose.connect("mongodb://127.0.0.1:27017/ut-nodejs", {
-  useNewUrlParser: true,
+mongoose.connect(
+  "mongodb+srv://mymarket67:1234@cluster0.tagycdz.mongodb.net/",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
+
+const db = mongoose.connection;
+db.once("open", () => {
+  console.log("connected to MongoDB!!");
 });
 
 app.set("port", process.env.PORT || 3000);
@@ -45,6 +54,9 @@ app.use(express.json());
  * Listing 12.6 (p. 178)
  * 각 페이지 및 요청 타입을 위한 라우트 추가
  */
+
+
+
 app.get("/", homeController.showHome);
 app.get("/transportation", homeController.showTransportation); // 코스 페이지 위한 라우트 추가
 app.get("/contact", subscribersController.getSubscriptionPage); // 연락처 페이지 위한 라우트 추가
@@ -56,8 +68,10 @@ app.get("/subscribers", subscribersController.getAllSubscribers); // 모든 구�
  * Listing 18.10 (p. 269)
  * userController.js를 위에서 요청
  */
-// @TODO: index 라우트 생성
 
+
+// @TODO: index 라우트 생성
+app.get("/users",usersController.index,usersController.indexView);
 /**
  * Listing 12.12 (p. 184)
  * 에러 처리 라우트
