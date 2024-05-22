@@ -1,0 +1,36 @@
+<!-- views/users/create.ejs -->
+
+<!--
+  Listing 19.2 (p. 278)
+  새로운 사용자 생성
+-->
+
+<main class="">
+    <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+      <div class="pt-5">
+        <h1>가입을 축하합니다!</h1> <!-- 여기에 가입을 축하하는 메시지를 추가합니다. -->
+        <p>Your account has been successfully created!</p>
+  
+        <div class="row">
+          <div class="col-lg-6 mb-3 mt-3">
+            <div class="data-form">
+              <h2>Account Details:</h2>
+              <p>Username: <%= user.username %></p>
+              <p>Name: <%= user.first %> <%= user.last %></p>
+              <p>Email: <%= user.email %></p>
+              <p>Profile Image: <img src="<%= user.profileImg %>" alt="Profile Image"></p>
+            </div>
+          </div>
+  
+          <div class="col-lg-6 text-center text-lg-start mb-3 mt-5">
+            <figure>
+              <img
+                src="https://cdn.pixabay.com/photo/2016/11/23/18/17/men-1854191_960_720.jpg"
+              />
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  

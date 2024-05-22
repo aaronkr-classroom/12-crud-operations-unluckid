@@ -1,4 +1,3 @@
-// models/User.js
 "use strict";
 
 /**
@@ -11,6 +10,7 @@
  * {Schema}는 Mongoose의 Schema 객체를 동일한 이름의 상수로 할당한다. 나중에 이
  * 새로운 형식을 다른 모델에 적용할 것이다.
  */
+
 const mongoose = require("mongoose"),
   { Schema } = mongoose,
   userSchema = Schema(
@@ -69,18 +69,14 @@ userSchema.virtual("fullName").get(function () {
   return `${this.name.first} ${this.name.last}`;
 }); // 사용자의 풀 네임을 얻기 위한 가상 속성 추가
 
-module.exports = mongoose.model("User", userSchema);
-
-/**
- * 노트: 이 책을 쓰는 시점에 Mongoose 메소드는 더 이상 의존하지 않는 어휘 this를
- * 사용하기 때문에 화살표 함수를 사용할 수 없다.
- */
-
 /**
  * Listing 19.4 (p. 281)
  * user.js에 pre("save") 훅 추가
  */
-// pre("save") 훅 설정
+/**
+ * @TODO: pre("save") 훅 설정
+ */
+const Subscriber = require('./Subscriber')
 userSchema.pre("save", function (next) {
   let user = this; // 콜백에서 함수 키워드 사용
   if (user.subscribedAccount === undefined) {
@@ -102,7 +98,3 @@ userSchema.pre("save", function (next) {
 });
 
 module.exports = mongoose.model("User", userSchema);
-
-/**
- * 노트: 이 책을 쓰는 시점에는 Mongoose 훅에서 화살표 함수는 작동하지 않는다.
- */

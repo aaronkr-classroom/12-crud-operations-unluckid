@@ -15,8 +15,17 @@ const express = require("express"), // express를 요청
  */
 const mongoose = require("mongoose"); // mongoose를 요청
 // 데이터베이스 연결 설정
-mongoose.connect("mongodb://127.0.0.1:27017/ut-nodejs", {
-  useNewUrlParser: true,
+mongoose.connect(
+  "mongodb+srv://mymarket67:1234@cluster0.tagycdz.mongodb.net/",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
+
+const db = mongoose.connection;
+db.once("open", () => {
+  console.log("connected to MongoDB!!");
 });
 
 app.set("port", process.env.PORT || 3000);
@@ -27,7 +36,9 @@ app.set("port", process.env.PORT || 3000);
  */
 app.set("view engine", "ejs"); // ejs를 사용하기 위한 애플리케이션 세팅
 app.use(layouts); // layout 모듈 사용을 위한 애플리케이션 세팅
-app.use(express.static("public"));
+// app.use(express.static("public"));
+const path = require("path");
+app.use(express.static(path.join(__dirname, "public")));
 
 /**
  * Listing 12.4 (p. 177)
@@ -45,29 +56,20 @@ app.use(express.json());
  * Listing 19.3 (p. 280)
  * new와 create 라우트를 위한 라우터 추가
  *
- * app.get와 app.post를 router.get과 router.post로 변경할 수 있다
+ * @TODO: app.get와 app.post를 router.get과 router.post로 변경할 수 있다
  */
 const router = express.Router();
 app.use("/", router);
-
-/**
- * Listing 20.3 (p. 292)
- * 애플리케이션에 method-override 추가
- */
-/**
- * @TODO: methodOverride를 미들웨어로 사용하기 위한 애플리케이션 라유터 설정
- */
-
 /**
  * Listing 12.6 (p. 178)
  * 각 페이지 및 요청 타입을 위한 라우트 추가
  */
-router.get("/", homeController.showHome);
-router.get("/transportation", homeController.showTransportation); // 코스 페이지 위한 라우트 추가
-router.get("/contact", subscribersController.getSubscriptionPage); // 연락처 페이지 위한 라우트 추가
-router.post("/contact", subscribersController.saveSubscriber); // 연락처 제출 양식을 위한 라우트 추가
+app.get("/", homeController.showHome);
+app.get("/transportation", homeController.showTransportation); // 코스 페이지 위한 라우트 추가
+app.get("/contact", subscribersController.getSubscriptionPage); // 연락처 페이지 위한 라우트 추가
+app.post("/contact", subscribersController.saveSubscriber); // 연락처 제출 양식을 위한 라우트 추가
 
-router.get("/subscribers", subscribersController.getAllSubscribers); // 모든 구독자를 위한 라우트 추가
+app.get("/subscribers", subscribersController.getAllSubscribers); // 모든 구독자를 위한 라우트 추가
 
 /**
  * Listing 18.10 (p. 269)
@@ -79,6 +81,9 @@ app.get("/users", usersController.index, usersController.indexView); // index �
  * Listing 19.3 (p. 280)
  * 사용자의 new와 create 라우트 추가
  */
+/**
+ * @TODO: new, create, redirectView 라우트를 위한 라우터 추가
+ */
 router.get("/users/new", usersController.new); // 생성 폼을 보기 위한 요청 처리
 router.post(
   "/users/create",
@@ -86,14 +91,6 @@ router.post(
   usersController.redirectView // 생성 폼으로부터의 데이터 제출과 뷰 출력을 위한 요청 처리
 );
 router.get("/users/:id", usersController.show, usersController.showView);
-
-/**
- * Listing 20.7 (p. 296)
- * edit및 update 라우트 추가
- */
-/**
- * @TODO: viewing을 처리하기 위한 라우트 추가
- */
 
 /**
  * Listing 12.12 (p. 184)

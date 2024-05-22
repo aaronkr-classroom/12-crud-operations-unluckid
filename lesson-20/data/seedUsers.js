@@ -8,12 +8,18 @@ const mongoose = require("mongoose"),
   User = require("../models/User");
 
 // 데이터베이스 연결 설정
-mongoose.connect("mongodb://127.0.0.1:27017/ut-nodejs", {
-  useNewUrlParser: true,
+mongoose.connect(
+  "mongodb+srv://mymarket67:1234@cluster0.tagycdz.mongodb.net/",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
+
+const db = mongoose.connection;
+db.once("open", () => {
+  console.log("connected to MongoDB!!");
 });
-
-mongoose.connection;
-
 /** 
  * name: {
         // name 속성에 이름(first)과 성(last) 추가
